@@ -1,0 +1,1 @@
+This should be a web application where you can rate films you just watched.
