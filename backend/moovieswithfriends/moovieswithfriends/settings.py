@@ -77,7 +77,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'OPTIONS': {
-            'service': 'moovieswithfriends',
+            'service': 'moovieswith',
             'passfile': '.my_pgpass',
         },
     }
