@@ -5,8 +5,14 @@ name = "pypi"
 
 [packages]
 django = "*"
+psycopg2-binary = "*"
+dj-database-url = "*"
+python-dotenv = "*"
+djangorestframework = "*"
+django-filter = "*"
+django-model-utils = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.9"
+python_version = "3.10"
