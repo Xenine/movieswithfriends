@@ -11,6 +11,9 @@ python-dotenv = "*"
 djangorestframework = "*"
 django-filter = "*"
 django-model-utils = "*"
+django-telegram-login = "*"
+django-cors-headers = "*"
+requests = "*"
 
 [dev-packages]
 

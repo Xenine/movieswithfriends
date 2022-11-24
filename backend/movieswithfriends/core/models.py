@@ -51,7 +51,7 @@ class MFUser(AbstractBaseUser, PermissionsMixin, ParanoidModel):
     telegram_uid = models.PositiveBigIntegerField(unique=True)
     first_name = models.CharField(max_length=120, blank=True, null=True)
     second_name = models.CharField(max_length=120, blank=True, null=True)
-    telegram_username = models.CharField(max_length=64, null=True)
+    telegram_username = models.CharField(max_length=64, blank=True, null=True)
     is_admin = models.BooleanField(default=False)
 
     objects = MFUserManager()
@@ -66,3 +66,21 @@ class MFUser(AbstractBaseUser, PermissionsMixin, ParanoidModel):
     def is_staff(self):
         "Is the user a member of staff?"
         return self.is_admin
+
+
+class Movie(ParanoidModel):
+    TYPE_CHOICES = (
+        (1, "Фильм"),
+        (2, "Сериал"),
+    )
+    kp_id = models.PositiveIntegerField(unique=True)
+    name = models.CharField(max_length=128)
+    type = models.CharField(choices=TYPE_CHOICES, max_length=1)
+    year = models.PositiveSmallIntegerField(blank=True, null=True)
+    imbd_id = models.CharField(max_length=128, blank=True, null=True)
+    poster_url = models.SlugField(max_length=128, blank=True, null=True)
+    description = models.TextField(max_length=128, blank=True, null=True)
+    kp_rating = models.DecimalField(max_digits=2, decimal_places=1, blank=True, null=True)
+    
+    
+

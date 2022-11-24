@@ -15,11 +15,26 @@ body {
 }
 
 header {
+  background: #252323;
   border-bottom: 1px solid #D9D9D9;
+  height: 75px;
+  border-top-left-radius: 37.5px;
+  border-top-right-radius: 37.5px;
   h3,
-  p {
+  p,
+  span {
     margin: 0;
+    color: #FFFDF9;
   }
+  p, span {
+    font-weight: 500;
+    font-size: 14px;
+
+  }
+  span {
+    margin: 10px;
+  }
+
 }
 
 .content {
@@ -33,12 +48,13 @@ header {
   .card {
     width: 400px;
     height: 260px;
-    background: #BFB48F;
+    background: #839D9A;
     margin: 30px;
 
     .cardLeft {
-      img {
+      .cardAvatar {
         border-radius: 50%;
+        border: 2px solid #904E55;
       }
     }
   }

@@ -1,4 +1,5 @@
 import os
+import logging
 
 from pathlib import Path
 from dotenv import load_dotenv
@@ -20,17 +21,21 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    "corsheaders",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_telegram_login',
     'core',
     'rest_framework',
+    "rest_framework.authtoken",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -40,7 +45,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'moovieswithfriends.urls'
+ROOT_URLCONF = 'movieswithfriends.urls'
 
 TEMPLATES = [
     {
@@ -58,7 +63,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'moovieswithfriends.wsgi.application'
+WSGI_APPLICATION = 'movieswithfriends.wsgi.application'
 
 
 # Database
@@ -110,3 +115,12 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "core.MFUser"
+
+TELEGRAM_TOKEN = os.environ["TELEGRAM_TOKEN"]
+
+
+# CORS settings
+if DEBUG:
+    logging.info("Adding CsrfExemptSessionAuthentication for DEBUG")
+    CORS_ALLOW_ALL_ORIGINS = True  # If this is used then `CORS_ALLOWED_ORIGINS` will not have any effect
+    CORS_ALLOW_CREDENTIALS = True
