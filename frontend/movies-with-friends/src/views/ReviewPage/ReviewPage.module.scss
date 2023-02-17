@@ -1,0 +1,39 @@
+.button {
+  padding:10px;
+  border:none;
+  background-color:#5767aa;
+  color:#fff;
+  font-weight:600;
+  border-radius:5px;
+  width:100px;
+}
+
+.button:hover {
+  background-color:#29335c;
+  cursor: pointer;
+}
+
+.type {
+  border-radius:10px;
+  border: 1px solid #eee;
+  transition: .3s border-color;
+}
+.type:hover {
+  border: 1px solid #aaa;
+}
+
+.textarea {
+  width:45%;
+  resize: vertical;
+  padding:15px;
+  border-radius:15px;
+  border:0;
+  box-shadow:4px 4px 10px rgba(0,0,0,0.06);
+  height:150px;
+}
+
+@media only screen and (max-width: 1024px) {
+  .textarea {
+    width: 100%;
+  }
+}

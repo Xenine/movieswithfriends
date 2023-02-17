@@ -1,0 +1,10 @@
+.list_wrapper {
+    width: 50%;
+    margin-top: 20px;
+}
+
+@media (max-width: 500px) {
+    .list_wrapper {
+        width: 100%;
+    }
+}

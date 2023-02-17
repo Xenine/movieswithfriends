@@ -1,17 +1,26 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { BrowserRouter as Router } from 'react-router-dom';
-import './index.scss';
-import App from './App';
-import 'macro-css';
+import React, { createContext } from 'react'
+import ReactDOM from 'react-dom/client'
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import './index.scss'
+import App from './App'
+import 'macro-css'
+import Store from './store/Store'
+
+export const store = new Store()
+
+export const Context = createContext({
+    store,
+})
+
+const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
-  <React.StrictMode>
-    <Router>
-      <App />
-    </Router>
-  </React.StrictMode>
-);
-
-
+    <React.StrictMode>
+        <Context.Provider
+            value={{
+                store,
+            }}
+        >
+            <App />
+        </Context.Provider>
+    </React.StrictMode>
+)

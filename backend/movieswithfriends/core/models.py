@@ -3,7 +3,9 @@ from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 from django.utils import timezone
 from model_utils.managers import QueryManager
+from django.conf import settings
 
+from friendship.models import Friend, FriendshipRequest
 
 class ParanoidModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
@@ -53,6 +55,7 @@ class MFUser(AbstractBaseUser, PermissionsMixin, ParanoidModel):
     second_name = models.CharField(max_length=120, blank=True, null=True)
     telegram_username = models.CharField(max_length=64, blank=True, null=True)
     is_admin = models.BooleanField(default=False)
+    avatar_url = models.SlugField(max_length=128, blank=True, null=True)
 
     objects = MFUserManager()
     
@@ -67,20 +70,67 @@ class MFUser(AbstractBaseUser, PermissionsMixin, ParanoidModel):
         "Is the user a member of staff?"
         return self.is_admin
 
+    def is_active(self):
+        return not self.deleted_at
+
+    # @property
+    # def friend_requests(self):
+    #     return self.friend.filter(receiver=self.id, accepted=None)
+    
+    # @property
+    # def friends(self):
+    #     return Friend.objects.friends(self)
+
+    @property
+    def added_friends(self):
+        qs = Friend.objects.select_related("from_user").filter(to_user=self)
+        users = [u.from_user for u in qs]
+        return users
+    
+    
+
+    @property
+    def friend_requests(self):
+        qs = Friend.objects.unrejected_requests(user=self)
+        users = [u.from_user for u in qs]
+        return users
+
+
+
+
+# class Friendship(models.Model):
+#     sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+#     receiver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='receiver')
+#     send = models.DateTimeField(auto_now_add=True)
+#     accepted = models.DateTimeField(null=True)
+
 
 class Movie(ParanoidModel):
     TYPE_CHOICES = (
         (1, "Фильм"),
         (2, "Сериал"),
+        (3, "Мультик"),
+        (4, "Аниме"),
+        (5, "Мульт-сериал"),
+        (6, "ТВ-шоу"),
     )
     kp_id = models.PositiveIntegerField(unique=True)
     name = models.CharField(max_length=128)
+    alternative_name = models.CharField(max_length=128, blank=True, null=True)
     type = models.CharField(choices=TYPE_CHOICES, max_length=1)
     year = models.PositiveSmallIntegerField(blank=True, null=True)
-    imbd_id = models.CharField(max_length=128, blank=True, null=True)
+    imdb_id = models.CharField(max_length=128, blank=True, null=True)
     poster_url = models.SlugField(max_length=128, blank=True, null=True)
+    preview_url = models.SlugField(max_length=128, blank=True, null=True)
     description = models.TextField(max_length=128, blank=True, null=True)
-    kp_rating = models.DecimalField(max_digits=2, decimal_places=1, blank=True, null=True)
-    
-    
+    kp_rating = models.DecimalField(max_digits=5, decimal_places=3, blank=True, null=True)
+    imdb_rating = models.DecimalField(max_digits=5, decimal_places=3, blank=True, null=True)
+    movie_length = models.PositiveSmallIntegerField(blank=True, null=True)
+    trailer_url = models.SlugField(max_length=256, blank=True, null=True)
 
+    
+class Review(ParanoidModel):
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    text = models.TextField(max_length=256)
+    rating = models.PositiveSmallIntegerField()
