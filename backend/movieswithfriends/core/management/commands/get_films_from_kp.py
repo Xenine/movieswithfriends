@@ -17,7 +17,7 @@ class Command(BaseCommand):
             response = requests.get(f'https://api.kinopoisk.dev/movie?field=rating.kp&search=1-10&limit={limit}&page={page_number}&token={token}')
             json = response.json()['docs']
             movies_array = []
-            for movie_number in range(json.len):
+            for movie_number in range(len(json)):
                 movie_json = json[movie_number]
                 movie_type = movie_json['type']
                 type = 0
