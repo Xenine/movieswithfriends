@@ -9,7 +9,6 @@ const MovieCard = ({ movie, author, text, rating }) => {
     const ratingRef = useRef()
 
     useEffect(() => {
-        console.log('useEffect in movie card')
         if (parseInt(rating) < 5) {
             ratingRef.current.style.backgroundColor = 'rgba(255, 0, 0, 0.3)'
         } else if (parseInt(rating) < 8) {

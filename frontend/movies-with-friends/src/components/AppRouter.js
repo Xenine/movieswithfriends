@@ -1,10 +1,4 @@
-import {
-    Routes,
-    Route,
-    Navigate,
-    useNavigate,
-    useLocation,
-} from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { useContext, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { Context } from '..'
@@ -32,42 +26,10 @@ import PlayerPage from '../views/PlayerPage/PlayerPage'
 
 const AppRouter = observer(() => {
     const { store } = useContext(Context)
-    const navigate = useNavigate()
-    const location = useLocation()
-
-    // useEffect(() => {
-    //     console.log('We are in AppRouter useEffect')
-    //     const userData = JSON.parse(localStorage.getItem('user'))
-    //     if (!userData) {
-    //         refresh()
-    //             .then(() => {
-    //                 // user.setUser(JSON.parse(localStorage.getItem('user')))
-    //                 // user.setIsAuth(true)
-    //             })
-    //             .catch((err) => {
-    //                 console.log('nav to login page ')
-    //                 navigate(LOGIN_ROUTE)
-    //             })
-    //     } else {
-    //         // user.setUser(JSON.parse(localStorage.getItem('user')))
-    //         // user.setIsAuth(true)
-    //     }
-    //     // if (user.isAuth) {
-    //     //     console.log('user.isAuth == true')
-    //     // }
-
-    //     // setLoading(false)
-    // }, [])
 
     useEffect(() => {
-        console.log('обновление страницы1 ')
-        console.log(localStorage.getItem('access_token'))
         if (localStorage.getItem('access_token')) {
-            console.log('обновление страницы')
             store.refresh()
-            // } else if (location.pathname !== `/${LOGIN_ROUTE}`) {
-            //     navigate(LOGIN_ROUTE)
-            // }
         }
     }, [])
 

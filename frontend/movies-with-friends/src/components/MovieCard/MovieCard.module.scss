@@ -13,7 +13,6 @@
 
 .info {
     display: flex;
-    // flex-direction: column;
     height: 200px;
     width: 100%;
     align-content: space-between;
@@ -63,13 +62,11 @@
     border: none;
     border-top: 2px solid var(--grey);
     color: var(--grey);
-    // height: 5px;
 }
 
 .hover_card {
     cursor: pointer;
     &:hover {
         box-shadow: 20px 10px 25px rgba(0, 0, 0, 0.06);
-        // transform: translateY(-5px);
     }
 }

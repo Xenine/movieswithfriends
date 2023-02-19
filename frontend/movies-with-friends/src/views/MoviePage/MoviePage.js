@@ -32,10 +32,8 @@ const MoviePage = () => {
             text: review,
             rating: stars,
         }
-        postReview(data).then(() => alert('Ушло на базу'))
+        postReview(data)
     }
-
-    // const changeStars = (number) => setStars(number)
 
     if (loading) {
         return <div> Loading... </div>
@@ -56,6 +54,10 @@ const MoviePage = () => {
                 <div className={classes.info_block}>
                     <div className={classes.movie_block}>
                         <span className={classes.title}>{movie.name}</span>
+                        <br />
+                        <span className={classes.alt_title}>
+                            {movie.alternative_name}
+                        </span>
                         <p>{movie.year}</p>
                         <div
                             className={classes.play_button}
@@ -70,7 +72,15 @@ const MoviePage = () => {
                         <p>{movie.description}</p>
                     </div>
                     <div className={classes.ratings}>
-                        <div className={classes.rating}>
+                        <div
+                            className={classes.rating}
+                            onClick={() =>
+                                window.open(
+                                    `https://www.imdb.com/title/${movie.imdb_id}/`,
+                                    '_blank'
+                                )
+                            }
+                        >
                             <div>
                                 <img
                                     width={48}
@@ -79,9 +89,36 @@ const MoviePage = () => {
                                     alt="imdb"
                                 />
                             </div>
-                            <div>
+                            <div className={classes.rating_number}>
                                 <span className={classes.title}>
-                                    {movie.kp_rating}
+                                    {Math.floor(
+                                        parseFloat(movie.imdb_rating) * 10
+                                    ) / 10}
+                                </span>
+                            </div>
+                        </div>
+                        <div
+                            className={classes.rating}
+                            onClick={() =>
+                                window.open(
+                                    `https://www.kinopoisk.ru/film/${movie.kp_id}/`,
+                                    '_blank'
+                                )
+                            }
+                        >
+                            <div>
+                                <img
+                                    width={38}
+                                    height={38}
+                                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Kinopoisk_colored_square_icon.svg/202px-Kinopoisk_colored_square_icon.svg.png?20211227181504"
+                                    alt="kp"
+                                />
+                            </div>
+                            <div className={classes.rating_number}>
+                                <span className={classes.title}>
+                                    {Math.floor(
+                                        parseFloat(movie.kp_rating) * 10
+                                    ) / 10}
                                 </span>
                             </div>
                         </div>
@@ -90,7 +127,6 @@ const MoviePage = () => {
             </div>
             <div>
                 <div className="mt-50">
-                    {/* <form > */}
                     <div className="d-flex justify-center">
                         <StarRating stars={stars} setStars={setStars} />
                     </div>
@@ -107,7 +143,6 @@ const MoviePage = () => {
                             Отправить
                         </button>
                     </div>
-                    {/* </form> */}
                 </div>
             </div>
         </div>

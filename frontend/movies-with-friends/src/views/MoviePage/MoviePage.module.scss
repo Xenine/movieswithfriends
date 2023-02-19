@@ -1,6 +1,10 @@
 .title {
     font-weight: 700;
-    font-size: 36px;
+    font-size: 34px;
+}
+
+.alt_title {
+    opacity: 0.4;
 }
 
 .ratings {
@@ -11,9 +15,15 @@
 .rating {
     height: 100px;
     display: flex;
-    flex-direction: row;
-    text-align: center;
-    justify-content: space-around;
+    justify-content: center;
+    align-items: center;
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.rating_number {
+    margin-left: 10px;
 }
 
 .root_block {
@@ -37,14 +47,18 @@
     border-bottom-left-radius: 15% 50%;
     border-top-right-radius: 15% 50%;
     border-bottom-right-radius: 15% 50%;
-    background-color: #141414;
+    background-color: var(--mainColor);
     display: flex;
     justify-content: center;
     align-items: center;
     width: 200px;
     height: 52;
-    color: white;
+    color: var(--textColorWhite);
     margin: 20px;
+    &:hover {
+        cursor: pointer;
+        color: var(--secondaryColor);
+    }
 }
 
 @media only screen and (max-width: 720px) {
@@ -61,15 +75,15 @@
     padding: 10px;
     margin-bottom: 30px;
     border: none;
-    background-color: #5767aa;
-    color: #fff;
+    background-color: var(--mainColor);
+    color: var(--textColorWhite);
     font-weight: 600;
     border-radius: 5px;
     width: 100px;
 }
 
 .button:hover {
-    background-color: #29335c;
+    color: var(--secondaryColor);
     cursor: pointer;
 }
 

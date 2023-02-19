@@ -6,7 +6,8 @@ const headers = {
     'content-type': 'application/json',
 }
 
-const URL = process.env.REACT_APP_BASE_URL
+// const URL = process.env.REACT_APP_BASE_URL
+const URL = 'https://a37a-176-195-193-245.eu.ngrok.io'
 
 const $host = axios.create({
     baseURL: URL,
@@ -21,9 +22,6 @@ const $authHost = axios.create({
 const authRequestInterceptor = (config) => {
     const csrfToken = Cookies.get('csrftoken')
     const accessToken = JSON.parse(localStorage.getItem('access_token'))
-    console.log('Запрос ушел на ')
-    console.log(config)
-
     if (csrfToken) {
         config.headers['X-CSRFToken'] = csrfToken
     }

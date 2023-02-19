@@ -5,7 +5,7 @@ from django.utils import timezone
 from model_utils.managers import QueryManager
 from django.conf import settings
 
-from friendship.models import Friend, FriendshipRequest
+from friendship.models import Friend
 
 class ParanoidModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
@@ -73,36 +73,17 @@ class MFUser(AbstractBaseUser, PermissionsMixin, ParanoidModel):
     def is_active(self):
         return not self.deleted_at
 
-    # @property
-    # def friend_requests(self):
-    #     return self.friend.filter(receiver=self.id, accepted=None)
-    
-    # @property
-    # def friends(self):
-    #     return Friend.objects.friends(self)
-
     @property
     def added_friends(self):
         qs = Friend.objects.select_related("from_user").filter(to_user=self)
         users = [u.from_user for u in qs]
         return users
     
-    
-
     @property
     def friend_requests(self):
         qs = Friend.objects.unrejected_requests(user=self)
         users = [u.from_user for u in qs]
         return users
-
-
-
-
-# class Friendship(models.Model):
-#     sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-#     receiver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='receiver')
-#     send = models.DateTimeField(auto_now_add=True)
-#     accepted = models.DateTimeField(null=True)
 
 
 class Movie(ParanoidModel):

@@ -27,7 +27,7 @@ class MovieReadSerializer(serializers.ModelSerializer):
     type = serializers.ChoiceField(choices=Movie.TYPE_CHOICES)
     class Meta:
         model = Movie
-        fields = ["id", "kp_id", "name", "type", "year", "imdb_id", "poster_url", "preview_url", "description", "kp_rating"]
+        fields = ["id", "kp_id", "name", "alternative_name", "type", "year", "imdb_id", "poster_url", "preview_url", "description", "kp_rating", "imdb_rating", "movie_length"]
 
 
 class ReviewReadSerializer(serializers.ModelSerializer):

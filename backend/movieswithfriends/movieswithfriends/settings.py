@@ -118,6 +118,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = "core.MFUser"
 
 TELEGRAM_TOKEN = os.environ["TELEGRAM_TOKEN"]
+KINOPOISK_TOKEN = os.environ["KINOPOISK_TOKEN"]
 
 
 # CORS settings

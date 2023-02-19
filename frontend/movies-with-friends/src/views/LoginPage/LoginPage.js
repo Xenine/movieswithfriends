@@ -12,30 +12,7 @@ const LoginPage = observer(() => {
     useEffect(() => {
         window.onTelegramAuth = (userData) => {
             store.login(userData)
-            console.log('Nav to /')
             navigate(HOME_ROUTE)
-
-            // fetchChats().catch((e) => {
-            //   dispatch(
-            //     appActions.addNotification({
-            //       title: 'Не получилось загрузить список чатов',
-            //       status: 'error',
-            //     })
-            //   );
-            // });
-            // window.localStorage.setItem('user', JSON.stringify(userData));
-            // dispatch(userActions.setUser(userData));
-
-            // data = getMe(userData.id).then(data => {
-            //   console.log(userData);
-            //   console.log(data);
-            //   localStorage.setItem('user', JSON.stringify(data));
-            //   user.setIsAuth(true);
-            //   user.setUser(data);
-
-            //   navigate(HOME_ROUTE);
-            // }
-            // )
         }
 
         const script = document.createElement('script')

@@ -6,13 +6,13 @@ function StarRating({ stars, setStars }) {
     return (
         <StarRatings
             rating={stars}
-            starRatedColor="#ebc834"
+            starRatedColor="var(--mainColor)"
             changeRating={(e) => setStars(e)}
             numberOfStars={10}
             name="rating"
             starDimension="26px"
             starSpacing="5px"
-            starHoverColor="#5767aa"
+            starHoverColor="var(--secondaryColor)"
         />
     )
 }

@@ -5,7 +5,6 @@ import classes from './SearchMovieCard.module.scss'
 const SearcMovieCard = ({ movie }) => {
     const navigate = useNavigate()
     const onClick = () => {
-        console.log(movie)
         navigate('/' + MOVIE_ROUTE + '/' + movie.id)
     }
     const raiting = Math.floor(parseFloat(movie.kp_rating) * 10) / 10

@@ -1,16 +1,15 @@
 from django.core.management import BaseCommand
 import requests
-import logging
+from django.conf import settings
 
 from core.models import Movie
 
-# logger = logging.getLogger(__name__)
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
         limit = 700
         page = 1
-        token = 'ZQQ8GMN-TN54SGK-NB3MKEC-ZKB8V06'
+        token = settings.KINOPOISK_TOKEN
         response = requests.get(f'https://api.kinopoisk.dev/movie?field=rating.kp&search=1-10&limit={limit}&page={page}&token={token}')
         print(response.text)
         pages = response.json()["pages"]
@@ -18,7 +17,7 @@ class Command(BaseCommand):
             response = requests.get(f'https://api.kinopoisk.dev/movie?field=rating.kp&search=1-10&limit={limit}&page={page_number}&token={token}')
             json = response.json()['docs']
             movies_array = []
-            for movie_number in range(limit): # Исправить. На последней странице происходит ошибка
+            for movie_number in range(json.len):
                 movie_json = json[movie_number]
                 movie_type = movie_json['type']
                 type = 0
@@ -54,10 +53,7 @@ class Command(BaseCommand):
                 if movie_json.get('poster'):
                     poster_url = movie_json['poster'].get('url')
                     preview_url = movie_json['poster'].get('previewUrl')
-                
-                if not preview_url:
-                    continue 
-
+               
                 if movie_json.get('externalId'):
                     imdb_id = movie_json['externalId'].get('imdb')
 
@@ -65,10 +61,6 @@ class Command(BaseCommand):
                     kp_rating = movie_json['rating'].get('kp')
                     imdb_rating = movie_json['rating'].get('imdb')
             
-                # if movie_json.get('videos'):
-                #     for video in movie_json['videos']['trailers']:
-                #         if video['site'] == 'YouTube':
-                #             trailer = video['url']
 
                 movie_obj = Movie(kp_id = movie_json['id'], 
                                 name = name,

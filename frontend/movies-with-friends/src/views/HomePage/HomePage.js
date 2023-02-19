@@ -11,7 +11,6 @@ const HomePage = () => {
 
     useEffect(() => {
         fetchReviews().then((response) => {
-            console.log(response)
             setReviews(response.data.results)
         })
     }, [])
