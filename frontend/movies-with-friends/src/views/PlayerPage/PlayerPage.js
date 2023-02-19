@@ -8,7 +8,7 @@ const PlayerPage = () => {
 
     useEffect(() => {
         const script = document.createElement('script')
-        script.src = '/kinidb.js'
+        script.src = '/kinodb.js'
         document.body.appendChild(script)
 
         return () => {
