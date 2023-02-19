@@ -6,8 +6,7 @@ const headers = {
     'content-type': 'application/json',
 }
 
-// const URL = process.env.REACT_APP_BASE_URL
-const URL = 'https://a37a-176-195-193-245.eu.ngrok.io'
+const URL = process.env.REACT_APP_BASE_URL
 
 const $host = axios.create({
     baseURL: URL,
