@@ -8,7 +8,7 @@ const PlayerPage = () => {
 
     useEffect(() => {
         const script = document.createElement('script')
-        script.src = 'https://kinobd.ru/js/player_.js'
+        script.src = '/kinidb.js'
         document.body.appendChild(script)
 
         return () => {
@@ -19,7 +19,6 @@ const PlayerPage = () => {
     return (
         <div className={classes.wrapper}>
             <div
-                // className={styles.video}
                 id="kinobd"
                 data-resize="1"
                 data-bg="#000"
