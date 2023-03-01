@@ -1,4 +1,4 @@
-import { $authHost } from './client'
+import { $authHost, $host } from './client'
 
 export const fetchMovies = async () => {
     const movies = await $authHost.get('api/movies')
@@ -27,8 +27,7 @@ export const postReview = async (data) => {
 }
 
 export const fetchReviews = async (limit = 10, offset = 0) => {
-    const reviews = $authHost.get(`api/review/?limit=${limit}&offset=${offset}`)
-    return reviews.data
+    return $authHost.get(`api/review/?limit=${limit}&offset=${offset}`)
 }
 
 export const postAddFriend = async (id) => {
@@ -45,4 +44,12 @@ export const deleteFriend = async (id) => {
 
 export const cancelRequest = async (id) => {
     return $authHost.delete(`api/friends/${id}/delete_request/`)
+}
+
+export const fetchNewMovies = async () => {
+    return $host.get('api/movies/latest/')
+}
+
+export const fetchRecomendedMovies = async () => {
+    return $host.get('api/movies/recomended/')
 }

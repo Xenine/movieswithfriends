@@ -11,7 +11,6 @@ class Command(BaseCommand):
         page = 1
         token = settings.KINOPOISK_TOKEN
         response = requests.get(f'https://api.kinopoisk.dev/movie?field=rating.kp&search=1-10&limit={limit}&page={page}&token={token}')
-        print(response.text)
         pages = response.json()["pages"]
         for page_number in range(1, pages + 1):
             response = requests.get(f'https://api.kinopoisk.dev/movie?field=rating.kp&search=1-10&limit={limit}&page={page_number}&token={token}')

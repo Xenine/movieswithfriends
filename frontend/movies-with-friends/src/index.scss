@@ -4,6 +4,8 @@
     --secondaryColor: #ffa219;
     --textColorWhite: #eee;
     --grey: #293133;
+    --swiper-navigation-color: #141414;
+    --swiper-pagination-color: #141414;
 }
 
 html {
@@ -20,20 +22,16 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: #e7e9ea;
-    // height: 100%;
 }
 
 .wrapper {
     background: #f4f4f4;
-    // border-radius: 39px;
     max-width: 1080px;
     margin: 0 auto;
     height: 100%;
 }
 
 header {
-    // border-bottom: 1px solid #d9d9d9;
-    // height: 70px;
     h3,
     p,
     span {
@@ -52,7 +50,7 @@ header {
 
 .content {
     margin: 0;
-    background: #eee;
+    background: var(--textColorWhite);
     .suggestions-card {
         background: #d9d9d9;
         width: 860px;

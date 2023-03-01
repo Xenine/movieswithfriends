@@ -16,6 +16,7 @@ const $host = axios.create({
 const $authHost = axios.create({
     baseURL: URL,
     headers,
+    withCredentials: true,
 })
 
 const authRequestInterceptor = (config) => {

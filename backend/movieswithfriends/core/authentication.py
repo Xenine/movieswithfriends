@@ -28,7 +28,6 @@ class JWTAuthentication(BaseAuthentication):
         if not user.is_active:
             raise exceptions.PermissionDenied('User is deleted! (in middleware)')
 
-        # self.enforce_csrf(request)
         print(user)
         return (user, None)
 

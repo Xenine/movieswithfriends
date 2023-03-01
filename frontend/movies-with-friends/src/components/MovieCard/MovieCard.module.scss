@@ -26,9 +26,10 @@
 }
 
 .title {
-    flex: 0, 1, 100%;
+    flex: 0 1 100%;
     display: flex;
-    font-size: 24px;
+    font-size: large;
+    font-weight: 500;
     padding: 10px;
     color: var(--mainColor);
 }
@@ -46,15 +47,23 @@
     align-items: center;
     padding: 10px;
     color: var(--grey);
+    font-size: medium;
+    font-weight: 400;
+    font-style: italic;
 }
 
 .text {
+    font-size: medium;
+    font-weight: 400;
     margin: 0 10px 10px 10px;
     color: var(--mainColor);
 }
 
 .rating {
-    font-size: 20px;
+    font-size: large;
+    font-weight: 500;
+    font-style: normal;
+    color: var(--mainColor);
     margin-right: 3px;
 }
 
@@ -65,8 +74,9 @@
 }
 
 .hover_card {
+    border-radius: 10px;
     cursor: pointer;
     &:hover {
-        box-shadow: 20px 10px 25px rgba(0, 0, 0, 0.06);
+        box-shadow: 20px 10px 25px rgba(0, 0, 0, 0.1);
     }
 }

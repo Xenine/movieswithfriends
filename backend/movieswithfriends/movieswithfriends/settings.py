@@ -126,21 +126,21 @@ if DEBUG:
     logging.info("Adding CsrfExemptSessionAuthentication for DEBUG")
     CORS_ALLOW_ALL_ORIGINS = True  # If this is used then `CORS_ALLOWED_ORIGINS` will not have any effect
     CORS_ALLOW_CREDENTIALS = True
-    # CSRF_TRUSTED_ORIGINS = ['https://c6a6-176-195-212-15.eu.ngrok.io']
+
 
 
 DEFAULT_RENDERER_CLASSES = ("rest_framework.renderers.JSONRenderer",)
 
 REST_FRAMEWORK = {
-    # "DEFAULT_THROTTLE_RATES": {"loginAttempts": "10/hr", "anon": "10000/day", "user": "10000/day"},
-    # "DEFAULT_THROTTLE_CLASSES": ["rest_framework.throttling.AnonRateThrottle", "rest_framework.throttling.UserRateThrottle"],
+    "DEFAULT_THROTTLE_RATES": {"loginAttempts": "10/hr", "anon": "10000/day", "user": "10000/day"},
+    "DEFAULT_THROTTLE_CLASSES": ["rest_framework.throttling.AnonRateThrottle", "rest_framework.throttling.UserRateThrottle"],
     "DEFAULT_RENDERER_CLASSES": DEFAULT_RENDERER_CLASSES,
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     "PAGE_SIZE": 20,
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "DEFAULT_AUTHENTICATION_CLASSES": [ 
         # "rest_framework.authentication.SessionAuthentication",
-        'core.authentication.JWTAuthentication', # TODO
+        'core.authentication.JWTAuthentication',
     ],
     "DATETIME_FORMAT": "%m/%d/%Y %H:%M:%S",
     "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",

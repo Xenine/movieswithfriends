@@ -1,3 +1,5 @@
+import random
+import datetime
 import jwt
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.utils.decorators import method_decorator
@@ -36,12 +38,11 @@ class LoginView(views.APIView):
         response = Response()
 
         # login(request, user)
-        print(user)
         serialized_user = MFUserReadSerializer(user).data
         access_token = generate_access_token(user)
         refresh_token = generate_refresh_token(user)
 
-        response.set_cookie(key='refreshtoken', value=refresh_token, httponly=True)
+        response.set_cookie(key='refreshtoken', value=refresh_token, httponly=True, samesite='none', secure=True)
         response.data = {
             'access_token': access_token,
             'user': serialized_user,
@@ -94,26 +95,40 @@ class MFUserViewSet(viewsets.ReadOnlyModelViewSet):
             return MFUserWriteSerializer
 
 class MovieViewSet(viewsets.ReadOnlyModelViewSet):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
     serializer_class = MovieReadSerializer
     queryset = Movie.objects.all().order_by('-kp_rating')
     filter_backends = [SearchFilter]
     search_fields = ['name']
 
+    @action(detail=False, methods=['get'])
+    def latest(self, request):
+        latest_movies = Movie.objects.filter(type=1).order_by('-kp_id')[:10]
+
+        return Response(MovieReadSerializer(latest_movies, many=True).data, status=status.HTTP_200_OK)
+
+    
+    @action(detail=False, methods=['get'])
+    def recomended(self, request):
+        random.seed(datetime.datetime.utcnow().date())
+        best_movies = Movie.objects.filter(type=1, kp_rating__gte=8)
+        recomended_movies = random.sample(list(best_movies), k=10)
+
+        return Response(MovieReadSerializer(recomended_movies, many=True).data, status=status.HTTP_200_OK)
+
 
 class ReviewViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
-    queryset = Review.objects.all()
+    queryset = Review.objects.all().order_by('-created_at')
 
     def get_queryset(self):
         if self.action in ["list"]:
             friends_qs = Friend.objects.friends(self.request.user)
-            return Review.objects.filter(author__in=friends_qs)
+            return Review.objects.filter(author__in=friends_qs).order_by('-created_at')
         
-        return Review.objects.all()
+        return Review.objects.all().order_by('-created_at')
 
     def get_serializer_class(self):
-        print(self.action)
         if self.action in ["list",  "retrieve"]:
             return ReviewReadSerializer
         else:

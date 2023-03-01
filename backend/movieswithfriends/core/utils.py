@@ -6,7 +6,7 @@ from django.conf import settings
 def generate_access_token(user):
     access_token_payload = {
         'telegram_uid': user.telegram_uid,
-        'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, minutes=1),
+        'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, minutes=60),
         'iat': datetime.datetime.utcnow(),
     }
     access_token = jwt.encode(access_token_payload, settings.SECRET_KEY, algorithm='HS256')
