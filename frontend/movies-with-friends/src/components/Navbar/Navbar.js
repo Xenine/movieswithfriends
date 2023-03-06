@@ -5,6 +5,8 @@ import './Navbar.css'
 import { observer } from 'mobx-react-lite'
 import { Context } from '../..'
 import {
+    ABOUT_ROUTE,
+    ACCOUNT_ROUTE,
     FRIENDS_ROUTE,
     HOME_ROUTE,
     LOGIN_ROUTE,
@@ -29,14 +31,11 @@ const Navbar = observer(() => {
         <header>
             <div className="nav-wrapper">
                 <div>
-                    <img
-                        width={42}
-                        height={34}
-                        src="/img/logo.svg"
-                        alt="logo"
-                    />
+                    <img width={42} height={42} src="/logo.svg" alt="logo" />
                     <div className="ml-10 flex-column">
-                        <h3>Фильмы с друзьями</h3>
+                        <h3>
+                            <span>F</span>ilm<span>F</span>riends.online
+                        </h3>
                         <p>Смотри, оценивай, делись!</p>
                     </div>
                 </div>
@@ -60,7 +59,7 @@ const Navbar = observer(() => {
                                 <Link to={SEARCH_ROUTE} onClick={showNavBar}>
                                     Найти фильм
                                 </Link>
-                                <Link to="/about" onClick={showNavBar}>
+                                <Link to={ABOUT_ROUTE} onClick={showNavBar}>
                                     О сайте
                                 </Link>
                                 <Link to={FRIENDS_ROUTE} onClick={showNavBar}>
@@ -69,7 +68,10 @@ const Navbar = observer(() => {
                                 <Link onClick={logout} to={LOGIN_ROUTE}>
                                     Выйти
                                 </Link>
-                                <Link>
+                                <Link
+                                    to={ACCOUNT_ROUTE + '/' + store.user.id}
+                                    onClick={showNavBar}
+                                >
                                     <img
                                         width={54}
                                         height={54}
@@ -90,7 +92,7 @@ const Navbar = observer(() => {
                                 >
                                     <FaTimes />
                                 </button>
-                                <Link to="/about" onClick={showNavBar}>
+                                <Link to={ABOUT_ROUTE} onClick={showNavBar}>
                                     О сайте
                                 </Link>
                                 <Link to={LOGIN_ROUTE} onClick={showNavBar}>

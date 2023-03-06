@@ -42,7 +42,10 @@ const AppRouter = observer(() => {
             <Routes>
                 <Route path={HOME_ROUTE} element={<Layout />}>
                     <Route index element={<HomePage />} />
-                    <Route path={ACCOUNT_ROUTE} element={<AccountPage />} />
+                    <Route
+                        path={ACCOUNT_ROUTE + '/:id'}
+                        element={<AccountPage />}
+                    />
                     <Route path={FRIENDS_ROUTE} element={<FriendsPage />} />
                     <Route
                         path={MOVIE_ROUTE + '/:id'}

@@ -33,6 +33,10 @@ export default class Store {
         return this._isLoading
     }
 
+    isInFriends(id) {
+        return this._user.added_friends.some((friend) => friend.id == id)
+    }
+
     async login(user) {
         try {
             const userToString = {

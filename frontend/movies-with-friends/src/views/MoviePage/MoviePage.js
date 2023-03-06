@@ -3,8 +3,15 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import StarRating from '../../components/StarRating/StarRating'
-import { fetchMovie, postReview } from '../../http/API'
-import { PLAYER_ROUTE } from '../../utils/consts'
+import {
+    deleteReview,
+    fetchMovie,
+    patchReview,
+    postAddBookmark,
+    postRemoveBookmark,
+    postReview,
+} from '../../http/API'
+import { PLAYER_ROUTE, type_choices } from '../../utils/consts'
 import classes from './MoviePage.module.scss'
 
 const MoviePage = () => {
@@ -13,26 +20,72 @@ const MoviePage = () => {
     const [loading, setLoading] = useState(true)
     const [review, setReview] = useState('')
     const [stars, setStars] = useState(0)
+    const [updateButtonText, setUpdateButtonText] = useState('Обновить')
     const { id } = useParams()
 
     useEffect(() => {
         fetchMovie(id).then((data) => {
             setMovie(data)
+            setReview(data.review.text ? data.review.text : '')
+            setStars(data.review.rating ? data.review.rating : 0)
             setLoading(false)
         })
     }, [id])
 
     const playButtonHandle = () => {
-        navigate('/' + PLAYER_ROUTE + '/' + movie.kp_id)
+        navigate('/' + PLAYER_ROUTE + '/' + movie.kp_id + '/')
     }
 
-    const onSubmit = async () => {
+    const onSubmitReview = async () => {
         const data = {
             movie: parseInt(id),
             text: review,
             rating: stars,
         }
-        postReview(data)
+        postReview(data).then((respose) => {
+            setMovie((movie) => ({
+                ...movie,
+                review: respose.data,
+            }))
+        })
+    }
+
+    const onUpdateReview = async () => {
+        const data = {
+            text: review,
+            rating: stars,
+        }
+        patchReview(movie.review.id, data)
+        setUpdateButtonText('Обновлено!')
+        setTimeout(() => {
+            setUpdateButtonText('Обновить')
+        }, 3000)
+    }
+
+    const onDeleteReview = async () => {
+        deleteReview(movie.review.id)
+        setStars(0)
+        setReview('')
+        setMovie((movie) => ({
+            ...movie,
+            review: null,
+        }))
+    }
+
+    const onAddBookmark = async () => {
+        postAddBookmark(id)
+        setMovie((movie) => ({
+            ...movie,
+            is_in_bookmarks: true,
+        }))
+    }
+
+    const onRemoveBookmark = async () => {
+        postRemoveBookmark(id)
+        setMovie((movie) => ({
+            ...movie,
+            is_in_bookmarks: false,
+        }))
     }
 
     if (loading) {
@@ -46,9 +99,8 @@ const MoviePage = () => {
                     <img
                         className="cardAvatar"
                         width={280}
-                        hight={280}
                         src={movie.poster_url}
-                        alt="avatar"
+                        alt="poster"
                     />
                 </div>
                 <div className={classes.info_block}>
@@ -58,18 +110,59 @@ const MoviePage = () => {
                         <span className={classes.alt_title}>
                             {movie.alternative_name}
                         </span>
-                        <p>{movie.year}</p>
-                        <div
-                            className={classes.play_button}
-                            onClick={playButtonHandle}
-                        >
-                            <img
-                                alt="play"
-                                src="https://img.icons8.com/metro/52/FFFFFF/play.png"
-                            />
-                            Смотреть
+                        <p>
+                            {type_choices[movie.type]} | {movie.year} год
+                        </p>
+
+                        <div className="d-flex">
+                            <div
+                                className={classes.play_button}
+                                onClick={playButtonHandle}
+                            >
+                                <img
+                                    alt="play"
+                                    src="https://img.icons8.com/metro/52/FFFFFF/play.png"
+                                />
+                                Смотреть
+                            </div>
+                            {movie.is_in_bookmarks ? (
+                                <div
+                                    className={classes.bookmark}
+                                    onClick={onRemoveBookmark}
+                                    title="Убрать из закладок"
+                                >
+                                    <img
+                                        src="https://img.icons8.com/ios-filled/50/1A1A1A/favorites.png"
+                                        alt="bookmark"
+                                    />
+                                </div>
+                            ) : (
+                                <div
+                                    className={classes.bookmark}
+                                    onClick={onAddBookmark}
+                                    title="Добавить в закладки"
+                                >
+                                    <img
+                                        src="https://img.icons8.com/ios/50/141414/favorites.png"
+                                        alt="bookmark"
+                                    />
+                                </div>
+                            )}
                         </div>
                         <p>{movie.description}</p>
+                        <p>
+                            {[1, 3].includes(movie.type) ? (
+                                <>
+                                    Продолжительность фильма:{' '}
+                                    {movie.movie_length} мин.
+                                </>
+                            ) : (
+                                <>
+                                    Продолжительность серии:{' '}
+                                    {movie.movie_length} мин.
+                                </>
+                            )}
+                        </p>
                     </div>
                     <div className={classes.ratings}>
                         <div
@@ -139,9 +232,29 @@ const MoviePage = () => {
                         />
                     </div>
                     <div className="mt-20 d-flex justify-center">
-                        <button className={classes.button} onClick={onSubmit}>
-                            Отправить
-                        </button>
+                        {movie.review?.rating ? (
+                            <>
+                                <button
+                                    className={classes.button}
+                                    onClick={onUpdateReview}
+                                >
+                                    {updateButtonText}
+                                </button>
+                                <button
+                                    className={classes.delete_button}
+                                    onClick={onDeleteReview}
+                                >
+                                    Удалить
+                                </button>
+                            </>
+                        ) : (
+                            <button
+                                className={classes.button}
+                                onClick={onSubmitReview}
+                            >
+                                Отправить
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>

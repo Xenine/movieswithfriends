@@ -11,6 +11,7 @@ const URL = process.env.REACT_APP_BASE_URL
 const $host = axios.create({
     baseURL: URL,
     headers,
+    withCredentials: true,
 })
 
 const $authHost = axios.create({

@@ -56,6 +56,10 @@ class MFUser(AbstractBaseUser, PermissionsMixin, ParanoidModel):
     telegram_username = models.CharField(max_length=64, blank=True, null=True)
     is_admin = models.BooleanField(default=False)
     avatar_url = models.SlugField(max_length=128, blank=True, null=True)
+    bookmarks = models.ManyToManyField("Movie", through="Bookmark")
+    public_reviews = models.BooleanField(default=False)
+    public_bookmarks = models.BooleanField(default=False)
+    only_friends_reviews = models.BooleanField(default=False)
 
     objects = MFUserManager()
     
@@ -84,6 +88,12 @@ class MFUser(AbstractBaseUser, PermissionsMixin, ParanoidModel):
         qs = Friend.objects.unrejected_requests(user=self)
         users = [u.from_user for u in qs]
         return users
+    
+
+class Bookmark(models.Model):
+    user = models.ForeignKey("MFUser", on_delete=models.CASCADE)
+    movie = models.ForeignKey("Movie", on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True, editable=False)
 
 
 class Movie(ParanoidModel):
@@ -113,5 +123,5 @@ class Movie(ParanoidModel):
 class Review(ParanoidModel):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    text = models.TextField(max_length=256)
+    text = models.TextField(max_length=1024)
     rating = models.PositiveSmallIntegerField()

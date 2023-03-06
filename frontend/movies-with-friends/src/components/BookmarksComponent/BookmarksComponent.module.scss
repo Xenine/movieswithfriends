@@ -1,0 +1,15 @@
+.list_wrapper {
+    width: 50%;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+}
+
+@media (max-width: 500px) {
+    .list_wrapper {
+        width: 100%;
+    }
+}

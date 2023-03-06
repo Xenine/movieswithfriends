@@ -9,6 +9,20 @@ header {
     z-index: 999999;
 }
 
+header h3 {
+    margin: 0;
+}
+
+header p {
+    margin: 0;
+    font-size: small;
+    font-weight: 500;
+}
+
+header span {
+    color: var(--secondaryColor);
+}
+
 nav a {
     margin: 0 0 0 1rem;
     color: var(--textColorWhite);
@@ -68,11 +82,13 @@ nav img {
         transition: 1s;
         transform: translateY(-100vh);
         z-index: 999999;
+        visibility: hidden;
     }
 
     header .responsive_nav {
         transform: none;
         z-index: 999999;
+        visibility: visible;
     }
 
     nav .nav-close-btn {

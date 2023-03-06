@@ -51,23 +51,46 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 200px;
-    height: 52;
+    min-width: 200px;
     color: var(--textColorWhite);
     margin: 20px;
+    transition: 0.2s all linear;
+
     &:hover {
         cursor: pointer;
         color: var(--secondaryColor);
+        transform: translateY(-3px);
     }
 }
 
-@media only screen and (max-width: 720px) {
+.bookmark {
+    margin: 20px;
+    transition: 0.2s all linear;
+
+    &:hover {
+        cursor: pointer;
+        transform: translateY(-3px);
+    }
+}
+
+@media only screen and (max-width: 855px) {
     .root_block {
         flex-direction: column;
+        align-items: center;
     }
 
     .info_block {
         flex-direction: column;
+        align-items: center;
+        margin-left: 0;
+    }
+
+    .movie_block {
+        max-width: 100%;
+    }
+
+    .play_button {
+        margin: 20px 0 20px 0;
     }
 }
 
@@ -80,11 +103,30 @@
     font-weight: 600;
     border-radius: 5px;
     width: 100px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+
+    &:hover {
+        color: var(--secondaryColor);
+        cursor: pointer;
+    }
 }
 
-.button:hover {
-    color: var(--secondaryColor);
-    cursor: pointer;
+.delete_button {
+    background-color: #da3633;
+    padding: 10px;
+    margin-bottom: 30px;
+    border: none;
+    color: var(--textColorWhite);
+    font-weight: 600;
+    border-radius: 5px;
+    width: 100px;
+    margin-left: 50px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+
+    &:hover {
+        color: var(--secondaryColor);
+        cursor: pointer;
+    }
 }
 
 .textarea {

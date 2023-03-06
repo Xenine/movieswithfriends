@@ -39,7 +39,7 @@ const FriendCard = ({ friend, clickHandle, isRequest = false }) => {
                     <button onClick={() => clickHandle(friend.id)}>
                         <img
                             src="https://img.icons8.com/glyph-neue/30/e63033/delete.png"
-                            alt="delete"
+                            alt="remove"
                         />
                     </button>
                 )}

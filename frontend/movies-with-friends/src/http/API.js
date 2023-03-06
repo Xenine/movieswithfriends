@@ -26,6 +26,14 @@ export const postReview = async (data) => {
     return $authHost.post('api/review/', data)
 }
 
+export const patchReview = async (id, data) => {
+    return $authHost.patch(`api/review/${id}/`, data)
+}
+
+export const deleteReview = async (id) => {
+    return $authHost.delete(`api/review/${id}/`)
+}
+
 export const fetchReviews = async (limit = 10, offset = 0) => {
     return $authHost.get(`api/review/?limit=${limit}&offset=${offset}`)
 }
@@ -52,4 +60,32 @@ export const fetchNewMovies = async () => {
 
 export const fetchRecomendedMovies = async () => {
     return $host.get('api/movies/recomended/')
+}
+
+export const fetchUser = async (id) => {
+    return await $authHost.get(`api/users/${id}/`)
+}
+
+export const patchUser = async (id, data) => {
+    return await $authHost.patch(`api/users/${id}/`, data)
+}
+
+export const postAddBookmark = async (id) => {
+    return $authHost.post(`api/movies/${id}/add_bookmark/`)
+}
+
+export const postRemoveBookmark = async (id) => {
+    return $authHost.post(`api/movies/${id}/remove_bookmark/`)
+}
+
+export const fetchUserBookmarks = async (id, limit = 10, offset = 0) => {
+    return $authHost.get(
+        `api/users/${id}/bookmarks/?limit=${limit}&offset=${offset}`
+    )
+}
+
+export const fetchUserReviews = async (id, limit = 10, offset = 0) => {
+    return $authHost.get(
+        `api/users/${id}/reviews/?limit=${limit}&offset=${offset}`
+    )
 }

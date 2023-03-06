@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from 'react'
 import debounce from 'lodash.debounce'
 import { searchMovies } from '../../http/API'
-import SearcMovieCard from '../../components/SearchMovieCard/SearchMovieCard'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import classes from './SearchPage.module.scss'
+import MovieCard from '../../components/MovieCard/MovieCard'
 
 const SearchPage = () => {
     const [searchString, setSearchString] = useState('')
@@ -54,7 +54,7 @@ const SearchPage = () => {
                     loader={<h4>Загрузка...</h4>}
                 >
                     {searchedMovies.map((item) => {
-                        return <SearcMovieCard key={item.id} movie={item} />
+                        return <MovieCard key={item.id} movie={item} />
                     })}
                 </InfiniteScroll>
             </div>

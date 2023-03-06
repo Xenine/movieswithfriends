@@ -31,29 +31,55 @@ body {
     height: 100%;
 }
 
-header {
-    h3,
-    p,
-    span {
-        margin: 0;
-        color: #fffdf9;
-    }
-    p,
-    span {
-        font-weight: 500;
-        font-size: 14px;
-    }
-    span {
-        margin: 10px;
-    }
-}
-
 .content {
     margin: 0;
     background: var(--textColorWhite);
-    .suggestions-card {
-        background: #d9d9d9;
-        width: 860px;
-        height: 240px;
-    }
+    display: flex;
+    flex-direction: column;
+}
+
+.react-tabs {
+    -webkit-tap-highlight-color: transparent;
+    margin: 30px 0 10px 0;
+}
+
+.react-tabs__tab-list {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid var(--mainColor);
+}
+
+.react-tabs__tab {
+    width: 50%;
+    padding: 1rem;
+    list-style: none;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+.react-tabs__tab--selected {
+    background: var(--mainColor);
+    color: var(--textColorWhite);
+}
+
+.react-tabs__tab--disabled {
+    color: var(--grey);
+    cursor: default;
+}
+
+.react-tabs__tab:hover {
+    background: var(--mainColor);
+    color: var(--textColorWhite);
+}
+
+.react-tabs__tab-panel {
+    display: none;
+}
+
+.react-tabs__tab-panel--selected {
+    display: flex;
+    justify-content: center;
 }

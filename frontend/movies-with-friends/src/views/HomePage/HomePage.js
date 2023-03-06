@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import MovieCard from '../../components/MovieCard/MovieCard'
 import {
     fetchNewMovies,
     fetchRecomendedMovies,
@@ -8,6 +7,7 @@ import {
 import classes from './HomePage.module.scss'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import Carousel from '../../components/Carousel/Carousel'
+import ReviewCard from '../../components/ReviewCard/ReviewCard'
 
 const HomePage = () => {
     const [reviews, setReviews] = useState([])
@@ -30,7 +30,7 @@ const HomePage = () => {
         })
     }, [])
 
-    const fetchMoreMovies = () => {
+    const fetchMoreReviews = () => {
         const offset = reviews.length
         fetchReviews(limit, offset).then((response) => {
             setHasMore(!!response.data.next)
@@ -54,7 +54,7 @@ const HomePage = () => {
             )}
             <InfiniteScroll
                 dataLength={reviews.length}
-                next={fetchMoreMovies}
+                next={fetchMoreReviews}
                 hasMore={hasMore}
                 style={{
                     display: 'inline-flex',
@@ -64,7 +64,7 @@ const HomePage = () => {
                 }}
             >
                 {reviews.map((item, index) => (
-                    <MovieCard
+                    <ReviewCard
                         key={index}
                         movie={item.movie}
                         author={item.author}
