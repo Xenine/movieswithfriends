@@ -9,17 +9,19 @@ header {
     z-index: 999999;
 }
 
-header h3 {
+.nav-title {
     margin: 0;
+    font-weight: 600;
+    font-size: larger;
 }
 
-header p {
+.nav-subtitle {
     margin: 0;
-    font-size: small;
     font-weight: 500;
+    font-size: small;
 }
 
-header span {
+header span span {
     color: var(--secondaryColor);
 }
 
@@ -27,6 +29,8 @@ nav a {
     margin: 0 0 0 1rem;
     color: var(--textColorWhite);
     text-decoration: none;
+    font-weight: 400;
+    font-size: medium;
 }
 
 nav a:hover {
@@ -99,5 +103,11 @@ nav img {
 
     nav a {
         font-size: 1.5rem;
+    }
+}
+
+@media only screen and (max-width: 350px) {
+    header {
+        padding: 0 5px;
     }
 }

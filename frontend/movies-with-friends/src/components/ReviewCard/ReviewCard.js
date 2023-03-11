@@ -10,11 +10,11 @@ const ReviewCard = ({ movie, author, text, rating }) => {
 
     useEffect(() => {
         if (parseInt(rating) < 5) {
-            ratingRef.current.style.backgroundColor = 'rgba(255, 0, 0, 0.3)'
+            ratingRef.current.style.backgroundColor = 'rgba(255, 191, 191)'
         } else if (parseInt(rating) < 8) {
-            ratingRef.current.style.backgroundColor = 'rgba(255, 204, 0, 0.3)'
+            ratingRef.current.style.backgroundColor = 'rgba(245, 231, 176)'
         } else {
-            ratingRef.current.style.backgroundColor = 'rgba(51, 204, 102, 0.3)'
+            ratingRef.current.style.backgroundColor = 'rgba(184, 227, 184)'
         }
     }, [rating])
 

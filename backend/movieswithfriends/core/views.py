@@ -3,6 +3,7 @@ import datetime
 import jwt
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.utils.decorators import method_decorator
+from django.core.cache import cache
 
 from rest_framework import permissions, status, viewsets, views, exceptions, mixins
 from rest_framework.response import Response
@@ -164,13 +165,22 @@ class MovieViewSet(viewsets.ReadOnlyModelViewSet):
             return MovieReviewIncludedReadSerializer
         else:
             return MovieReadSerializer
+        
+    @action(detail=False, methods=['get'])
+    def top10(self, request):
+        id_list = cache.get('top10')
+        print(id_list)
+        qs = Movie.objects.filter(kp_id__in=id_list)
+        serializer = self.get_serializer(qs, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
             
 
     @action(detail=False, methods=['get'])
     def latest(self, request):
         latest_movies = Movie.objects.filter(type=1).order_by('-kp_id')[:10]
+        serializer = self.get_serializer(latest_movies, many=True)
 
-        return Response(MovieReadSerializer(latest_movies, many=True).data, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     
     @action(detail=False, methods=['get'])
@@ -178,8 +188,9 @@ class MovieViewSet(viewsets.ReadOnlyModelViewSet):
         random.seed(datetime.datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0).timestamp())
         best_movies = Movie.objects.filter(type=1, kp_rating__gte=8)
         recomended_movies = random.sample(list(best_movies), k=10)
+        serializer = self.get_serializer(recomended_movies, many=True)
 
-        return Response(MovieReadSerializer(recomended_movies, many=True).data, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     @action(detail=True, methods=['post'])
     def add_bookmark(self, request, pk=None):

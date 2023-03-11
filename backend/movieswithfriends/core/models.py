@@ -68,7 +68,7 @@ class MFUser(AbstractBaseUser, PermissionsMixin, ParanoidModel):
     REQUIRED_FIELDS = []
 
     def __str__(self):
-        return f"{self.id} {self.telegram_uid}"
+        return f"{self.id} {self.first_name} {self.second_name} {self.telegram_username}"
 
     def is_staff(self):
         "Is the user a member of staff?"
@@ -119,6 +119,9 @@ class Movie(ParanoidModel):
     movie_length = models.PositiveSmallIntegerField(blank=True, null=True)
     trailer_url = models.SlugField(max_length=256, blank=True, null=True)
 
+    def __str__(self):
+        return f'{self.name}'
+    
     
 class Review(ParanoidModel):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)

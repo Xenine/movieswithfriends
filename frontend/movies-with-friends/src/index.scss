@@ -8,8 +8,40 @@
     --swiper-pagination-color: #141414;
 }
 
+@font-face {
+    font-family: 'GraphikLCG';
+    src: local('GraphikLCG'),
+        url(./fonts/GraphikLCG/GraphikLCG-Regular.woff) format('woff'),
+        url(./fonts/GraphikLCG/GraphikLCG-Regular.woff2) format('woff2');
+}
+
+@font-face {
+    font-family: 'GraphikLCG';
+    src: local('GraphikLCG'),
+        url(./fonts/GraphikLCG/GraphikLCG-Medium.woff) format('woff'),
+        url(./fonts/GraphikLCG/GraphikLCG-Medium.woff2) format('woff2');
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: 'GraphikLCG';
+    src: local('GraphikLCG'),
+        url(./fonts/GraphikLCG/GraphikLCG-Semibold.woff) format('woff'),
+        url(./fonts/GraphikLCG/GraphikLCG-Semibold.woff2) format('woff2');
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: 'GraphikLCG';
+    src: local('GraphikLCG'),
+        url(./fonts/GraphikLCG/GraphikLCG-Bold.woff) format('woff'),
+        url(./fonts/GraphikLCG/GraphikLCG-Bold.woff2), format('woff2');
+    font-weight: 700;
+}
+
 html {
     height: 100%;
+    font-family: GraphikLCG, sans-serif;
 }
 
 #root {
@@ -18,7 +50,6 @@ html {
 
 body {
     margin: 0;
-    font-family: 'Graphik Kinopoisk LC Web SB', 'Raleway', system-ui;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: #e7e9ea;
@@ -82,4 +113,10 @@ body {
 .react-tabs__tab-panel--selected {
     display: flex;
     justify-content: center;
+}
+
+@media only screen and (max-width: 500px) {
+    .react-tabs__tab {
+        padding: 1rem 0;
+    }
 }

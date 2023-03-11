@@ -33,10 +33,12 @@ const Navbar = observer(() => {
                 <div>
                     <img width={42} height={42} src="/logo.svg" alt="logo" />
                     <div className="ml-10 flex-column">
-                        <h3>
+                        <span className="nav-title">
                             <span>F</span>ilm<span>F</span>riends.online
-                        </h3>
-                        <p>Смотри, оценивай, делись!</p>
+                        </span>
+                        <span className="nav-subtitle">
+                            Смотри, оценивай, делись!
+                        </span>
                     </div>
                 </div>
                 <div>
@@ -59,11 +61,11 @@ const Navbar = observer(() => {
                                 <Link to={SEARCH_ROUTE} onClick={showNavBar}>
                                     Найти фильм
                                 </Link>
-                                <Link to={ABOUT_ROUTE} onClick={showNavBar}>
-                                    О сайте
-                                </Link>
                                 <Link to={FRIENDS_ROUTE} onClick={showNavBar}>
                                     Друзья
+                                </Link>
+                                <Link to={ABOUT_ROUTE} onClick={showNavBar}>
+                                    О сайте
                                 </Link>
                                 <Link onClick={logout} to={LOGIN_ROUTE}>
                                     Выйти

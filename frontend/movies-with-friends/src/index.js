@@ -1,5 +1,6 @@
 import React, { createContext } from 'react'
 import ReactDOM from 'react-dom/client'
+import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 
 import './index.scss'
 import App from './App'
@@ -24,3 +25,5 @@ root.render(
         </Context.Provider>
     </React.StrictMode>
 )
+
+serviceWorkerRegistration.register()

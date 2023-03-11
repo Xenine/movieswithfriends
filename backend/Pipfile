@@ -16,6 +16,9 @@ django-cors-headers = "*"
 requests = "*"
 djangorestframework-simplejwt = "*"
 django-friendship = "*"
+celery = "*"
+redis = "*"
+django-celery-beat = "*"
 
 [dev-packages]
 

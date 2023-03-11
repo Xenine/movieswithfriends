@@ -52,7 +52,7 @@ const AccountPage = observer(() => {
 
     return (
         <div className={classes.container}>
-            <div className="d-flex justify-between">
+            <div className={classes.main_info}>
                 <div className={classes.avatar}>
                     <img
                         width={162}

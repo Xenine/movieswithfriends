@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import {
-    fetchNewMovies,
     fetchRecomendedMovies,
     fetchReviews,
+    fetchTopMovies,
 } from '../../http/API'
 import classes from './HomePage.module.scss'
 import InfiniteScroll from 'react-infinite-scroll-component'
@@ -14,7 +14,7 @@ const HomePage = () => {
     const [hasMore, setHasMore] = useState(false)
     const limit = 10
 
-    const [latestMovies, setLatestMovies] = useState([])
+    const [topMovies, setTopMovies] = useState([])
     const [recomendedMovies, setRecomendedMovies] = useState([])
 
     useEffect(() => {
@@ -22,8 +22,8 @@ const HomePage = () => {
             setHasMore(!!response.data.next)
             setReviews(response.data.results)
         })
-        fetchNewMovies().then((response) => {
-            setLatestMovies(response.data)
+        fetchTopMovies().then((response) => {
+            setTopMovies(response.data)
         })
         fetchRecomendedMovies().then((response) => {
             setRecomendedMovies(response.data)
@@ -40,14 +40,14 @@ const HomePage = () => {
 
     return (
         <div className="content">
-            <p className={classes.subtitle}>Новые фильмы {'>'}</p>
-            {latestMovies.length !== 0 && recomendedMovies.length !== 0 && (
+            <p className={classes.subtitle}>Популярные тайтлы {'>'}</p>
+            {topMovies.length !== 0 && recomendedMovies.length !== 0 && (
                 <div className={classes.suggestions}>
-                    <Carousel movies={latestMovies}></Carousel>
+                    <Carousel movies={topMovies}></Carousel>
                 </div>
             )}
             <p className={classes.subtitle}>Что посмотреть сегодня {'>'}</p>
-            {recomendedMovies.length !== 0 && latestMovies.length !== 0 && (
+            {recomendedMovies.length !== 0 && topMovies.length !== 0 && (
                 <div className={classes.suggestions}>
                     <Carousel movies={recomendedMovies}></Carousel>
                 </div>

@@ -59,3 +59,21 @@
         cursor: pointer;
     }
 }
+
+.main_info {
+    display: flex;
+    justify-content: space-between;
+}
+
+@media only screen and (max-width: 650px) {
+    .main_info {
+        flex-direction: column;
+        align-items: center;
+    }
+    .avatar {
+        margin: 20px 0 0 0;
+    }
+    .button {
+        margin: 20px 0 0 0;
+    }
+}

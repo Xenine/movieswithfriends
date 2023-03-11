@@ -63,7 +63,7 @@ const FriendsPage = () => {
                     clickHandle={cancelHandler}
                 />
             )}
-            <div className="mt-20 d-flex flex-column align-center w100p">
+            <div className="mt-10 mb-10 d-flex flex-column align-center w100p">
                 {store.user.friend_requests?.map((item, index) => (
                     <FriendCard
                         key={index}
@@ -73,7 +73,7 @@ const FriendsPage = () => {
                     />
                 ))}
             </div>
-            <div className="mt-20 d-flex flex-column align-center w100p">
+            <div className="mt-10 mb-10 d-flex flex-column align-center w100p">
                 {store.user.added_friends?.map((item, index) => (
                     <FriendCard
                         key={index}

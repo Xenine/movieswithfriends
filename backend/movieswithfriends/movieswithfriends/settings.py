@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
     'rest_framework',
     'friendship',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -120,10 +121,21 @@ AUTH_USER_MODEL = "core.MFUser"
 TELEGRAM_TOKEN = os.environ["TELEGRAM_TOKEN"]
 KINOPOISK_TOKEN = os.environ["KINOPOISK_TOKEN"]
 
+CELERY_BROKER_URL = os.environ["CELERY_BROKER_URL"]
+CELERY_RESULT_BACKEND = os.environ["CELERY_BROKER_URL"]
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 
-# CORS settings
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": os.environ["REDIS_CACHE_LOCATION"],
+    }
+}
+
+
 if DEBUG:
-    logging.info("Adding CsrfExemptSessionAuthentication for DEBUG")
     CORS_ALLOW_ALL_ORIGINS = True  # If this is used then `CORS_ALLOWED_ORIGINS` will not have any effect
     CORS_ALLOW_CREDENTIALS = True
 
@@ -136,10 +148,9 @@ REST_FRAMEWORK = {
     "DEFAULT_THROTTLE_CLASSES": ["rest_framework.throttling.AnonRateThrottle", "rest_framework.throttling.UserRateThrottle"],
     "DEFAULT_RENDERER_CLASSES": DEFAULT_RENDERER_CLASSES,
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
-    "PAGE_SIZE": 20,
+    "PAGE_SIZE": 10,
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "DEFAULT_AUTHENTICATION_CLASSES": [ 
-        # "rest_framework.authentication.SessionAuthentication",
         'core.authentication.JWTAuthentication',
     ],
     "DATETIME_FORMAT": "%m/%d/%Y %H:%M:%S",

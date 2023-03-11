@@ -54,8 +54,8 @@ export const cancelRequest = async (id) => {
     return $authHost.delete(`api/friends/${id}/delete_request/`)
 }
 
-export const fetchNewMovies = async () => {
-    return $host.get('api/movies/latest/')
+export const fetchTopMovies = async () => {
+    return $host.get('api/movies/top10/')
 }
 
 export const fetchRecomendedMovies = async () => {
