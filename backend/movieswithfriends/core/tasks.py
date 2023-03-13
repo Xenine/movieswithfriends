@@ -13,7 +13,6 @@ def get_new_films_from_kp():
     token = settings.KINOPOISK_TOKEN
     response = requests.get(f'https://api.kinopoisk.dev/v1/movie?selectFields=id&rating.kp=1-10&poster.url=%21null&page=1&limit={limit}&token={token}')
     print(f'Status in get new films: {response.status_code}')
-    print(f'json() in get new films: {response.json()}')
     pages = response.json()["pages"]
     print(pages)
 
@@ -71,8 +70,7 @@ def get_top10_to_cache():
         response = requests.get(f'https://api.kinopoisk.dev/v1/movie?selectFields=id&top10=%21null&sortField=top10&sortType=-1&page=1&limit=10&token={token}')
         print(f'Status in get top10: {response.status_code}')
         print(f'json() in get top10: {response.json()}')
-        top10 =  [movie.id for movie in response.json()['docs']]
-        print(top10)
+        top10 =  [movie['id'] for movie in response.json()['docs']]
         cache.set('top10', top10, 60*60*48)
     except:
         cache.touch('top10', 60*60*48)
