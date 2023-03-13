@@ -154,7 +154,7 @@ class MFUserViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.L
 
 
 class MovieViewSet(viewsets.ReadOnlyModelViewSet):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.AllowAny]
     serializer_class = MovieReadSerializer
     queryset = Movie.objects.all().order_by('-kp_rating')
     filter_backends = [SearchFilter]
