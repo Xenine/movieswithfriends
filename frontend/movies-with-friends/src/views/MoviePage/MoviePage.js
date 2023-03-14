@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { Context } from '../..'
+import NeedRegistrationComponent from '../../components/NeedRegistrationComponent/NeedRegistrationComponent'
 import StarRating from '../../components/StarRating/StarRating'
 import {
     deleteReview,
@@ -15,6 +17,7 @@ import { PLAYER_ROUTE, type_choices } from '../../utils/consts'
 import classes from './MoviePage.module.scss'
 
 const MoviePage = () => {
+    const { store } = useContext(Context)
     const navigate = useNavigate()
     const [movie, setMovie] = useState({})
     const [loading, setLoading] = useState(true)
@@ -26,8 +29,8 @@ const MoviePage = () => {
     useEffect(() => {
         fetchMovie(id).then((data) => {
             setMovie(data)
-            setReview(data.review.text ? data.review.text : '')
-            setStars(data.review.rating ? data.review.rating : 0)
+            setReview(data.review?.text ? data.review.text : '')
+            setStars(data.review?.rating ? data.review.rating : 0)
             setLoading(false)
         })
     }, [id])
@@ -125,29 +128,30 @@ const MoviePage = () => {
                                 />
                                 Смотреть
                             </div>
-                            {movie.is_in_bookmarks ? (
-                                <div
-                                    className={classes.bookmark}
-                                    onClick={onRemoveBookmark}
-                                    title="Убрать из закладок"
-                                >
-                                    <img
-                                        src="https://img.icons8.com/ios-filled/50/1A1A1A/favorites.png"
-                                        alt="bookmark"
-                                    />
-                                </div>
-                            ) : (
-                                <div
-                                    className={classes.bookmark}
-                                    onClick={onAddBookmark}
-                                    title="Добавить в закладки"
-                                >
-                                    <img
-                                        src="https://img.icons8.com/ios/50/141414/favorites.png"
-                                        alt="bookmark"
-                                    />
-                                </div>
-                            )}
+                            {store.isAuth &&
+                                (movie.is_in_bookmarks ? (
+                                    <div
+                                        className={classes.bookmark}
+                                        onClick={onRemoveBookmark}
+                                        title="Убрать из закладок"
+                                    >
+                                        <img
+                                            src="https://img.icons8.com/ios-filled/50/1A1A1A/favorites.png"
+                                            alt="bookmark"
+                                        />
+                                    </div>
+                                ) : (
+                                    <div
+                                        className={classes.bookmark}
+                                        onClick={onAddBookmark}
+                                        title="Добавить в закладки"
+                                    >
+                                        <img
+                                            src="https://img.icons8.com/ios/50/141414/favorites.png"
+                                            alt="bookmark"
+                                        />
+                                    </div>
+                                ))}
                         </div>
                         <p>{movie.description}</p>
                         <p>
@@ -232,28 +236,32 @@ const MoviePage = () => {
                         />
                     </div>
                     <div className="mt-20 d-flex justify-center">
-                        {movie.review?.rating ? (
-                            <>
+                        {store.isAuth ? (
+                            movie.review?.rating ? (
+                                <>
+                                    <button
+                                        className={classes.button}
+                                        onClick={onUpdateReview}
+                                    >
+                                        {updateButtonText}
+                                    </button>
+                                    <button
+                                        className={classes.delete_button}
+                                        onClick={onDeleteReview}
+                                    >
+                                        Удалить
+                                    </button>
+                                </>
+                            ) : (
                                 <button
                                     className={classes.button}
-                                    onClick={onUpdateReview}
+                                    onClick={onSubmitReview}
                                 >
-                                    {updateButtonText}
+                                    Отправить
                                 </button>
-                                <button
-                                    className={classes.delete_button}
-                                    onClick={onDeleteReview}
-                                >
-                                    Удалить
-                                </button>
-                            </>
+                            )
                         ) : (
-                            <button
-                                className={classes.button}
-                                onClick={onSubmitReview}
-                            >
-                                Отправить
-                            </button>
+                            <NeedRegistrationComponent text="Чтобы оставить отзыв зарегистрируйтесь или войдите" />
                         )}
                     </div>
                 </div>

@@ -47,9 +47,7 @@ class MovieReviewIncludedReadSerializer(serializers.ModelSerializer):
     
     def get_review(self, obj: Movie):
         request = self.context["request"]
-        print(request.user)
         qs = Review.objects.filter(author=request.user, movie=obj)
-        print(qs)
         if qs.exists:
             return ReviewSmallReadSerializer(qs.first()).data
         else:

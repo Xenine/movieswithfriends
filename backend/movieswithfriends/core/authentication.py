@@ -17,16 +17,16 @@ class JWTAuthentication(BaseAuthentication):
             access_token = authorization_header.split(' ')[1]
             payload = jwt.decode(access_token, settings.SECRET_KEY, algorithms=['HS256'])
         except jwt.ExpiredSignatureError:
-            raise exceptions.AuthenticationFailed('Access_token expired! (in middleware)')
+            raise exceptions.AuthenticationFailed('Access_token expired!')
         except IndexError:
-            raise exceptions.AuthenticationFailed('Token prefix missing! (in middleware)')
+            raise exceptions.AuthenticationFailed('Token prefix missing!')
 
         user = MFUser.objects_with_deleted.filter(telegram_uid=payload['telegram_uid']).first()
         if user is None:
-            raise exceptions.PermissionDenied('User not found! (in middleware)')
+            raise exceptions.PermissionDenied('User not found!')
 
         if not user.is_active:
-            raise exceptions.PermissionDenied('User is deleted! (in middleware)')
+            raise exceptions.PermissionDenied('User is deleted!')
 
         print(user)
         return (user, None)

@@ -94,6 +94,9 @@ const Navbar = observer(() => {
                                 >
                                     <FaTimes />
                                 </button>
+                                <Link to={HOME_ROUTE} onClick={showNavBar}>
+                                    Лента
+                                </Link>
                                 <Link to={ABOUT_ROUTE} onClick={showNavBar}>
                                     О сайте
                                 </Link>

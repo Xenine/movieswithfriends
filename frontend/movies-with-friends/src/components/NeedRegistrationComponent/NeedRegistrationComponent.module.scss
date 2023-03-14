@@ -1,0 +1,25 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 20px;
+    max-width: 200px;
+}
+
+.button {
+    padding: 10px;
+    margin: 20px 0 30px 0;
+    border: none;
+    background-color: var(--mainColor);
+    color: var(--textColorWhite);
+    font-weight: 600;
+    border-radius: 5px;
+    width: 100px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+
+    &:hover {
+        color: var(--secondaryColor);
+        cursor: pointer;
+    }
+}

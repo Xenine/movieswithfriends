@@ -1,4 +1,5 @@
 import React from 'react'
+import classes from './AboutPage.module.scss'
 
 const AboutPage = () => {
     return (
@@ -7,9 +8,17 @@ const AboutPage = () => {
                 Добро пожаловать на сайт FilmFriends.online! <br />
                 Здесь вы можете смотреть фильмы, оставлять отзывы и быть в курсе
                 того, что смотрят ваши друзья. <br />
-                Поддержать проект можно по qr-коду:
+                Поддержать проект можно по qr-коду (или по{' '}
+                <span className={classes.ref}>клику</span>):
             </p>
-            <img src="/img/qr.png" alt="qr" width={200} height={200} />
+            <div
+                className={classes.qr}
+                onClick={() =>
+                    window.open('https://pay.mysbertips.ru/38482401', '_blank')
+                }
+            >
+                <img src="/img/qr.png" alt="qr" width={200} height={200} />
+            </div>
             <p>
                 P.S. доступ к просмотру предоставляет сторонний плеер, также как
                 и рекламу внутри плеера :) <br />

@@ -13,27 +13,31 @@ import {
 import SettingsComponent from '../../components/SettingsComponent/SettingsComponent'
 import BookmarksComponent from '../../components/BookmarksComponent/BookmarksComponent'
 import ReviewsComponent from '../../components/ReviewsComponent/ReviewsComponent'
-import { toJS } from 'mobx'
-// import 'react-tabs/style/react-tabs.css'
+import NeedRegistrationComponent from '../../components/NeedRegistrationComponent/NeedRegistrationComponent'
 
 const AccountPage = observer(() => {
     const { store } = useContext(Context)
     const { id } = useParams()
     const [user, setUser] = useState({})
     const [isFriend, setIsFriend] = useState(false)
+    const [isFriendButton, setIsFriendButton] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         fetchUser(id).then((response) => {
             setUser(response.data)
-            setIsFriend(store.isInFriends(id))
+            if (store.isAuth) {
+                const isFriendInStore = store.isInFriends(id)
+                setIsFriendButton(isFriendInStore)
+                setIsFriend(isFriendInStore)
+            }
             setIsLoading(false)
         })
     }, [id])
 
     const onClickAdd = async () => {
         postAddFriend(id).then(() => {
-            setIsFriend(true)
+            setIsFriendButton(true)
         })
     }
 
@@ -43,7 +47,7 @@ const AccountPage = observer(() => {
         } else {
             cancelRequest(id)
         }
-        setIsFriend(false)
+        setIsFriendButton(false)
     }
 
     if (isLoading) {
@@ -72,40 +76,52 @@ const AccountPage = observer(() => {
                     </div>
                 </div>
                 <div className={classes.friendButton}>
-                    {isFriend ? (
-                        <button
-                            className={classes.delete_button}
-                            onClick={onClickRemove}
-                        >
-                            Удалить из друзей
-                        </button>
+                    {store.isAuth ? (
+                        isFriendButton ? (
+                            <button
+                                className={classes.delete_button}
+                                onClick={onClickRemove}
+                            >
+                                Удалить из друзей
+                            </button>
+                        ) : (
+                            <button
+                                className={classes.button}
+                                onClick={onClickAdd}
+                            >
+                                Отправить запрос дружбы
+                            </button>
+                        )
                     ) : (
-                        <button className={classes.button} onClick={onClickAdd}>
-                            Отправить запрос дружбы
-                        </button>
+                        <NeedRegistrationComponent text="Чтобы увидеть больше информации о пользователе войдите" />
                     )}
                 </div>
             </div>
             {(store.user.id == id ||
+                isFriend ||
                 user.public_bookmarks ||
                 user.public_reviews) && (
                 <Tabs>
                     <TabList>
-                        {(store.user.id == id || user.public_bookmarks) && (
-                            <Tab>Закладки</Tab>
-                        )}
-                        {(store.user.id == id || user.public_reviews) && (
-                            <Tab>Отзывы</Tab>
-                        )}
+                        {(store.user.id == id ||
+                            isFriend ||
+                            user.public_bookmarks) && <Tab>Закладки</Tab>}
+                        {(store.user.id == id ||
+                            isFriend ||
+                            user.public_reviews) && <Tab>Отзывы</Tab>}
                         {store.user.id == id && <Tab>Настройки</Tab>}
                     </TabList>
 
-                    {(store.user.id == id || user.public_bookmarks) && (
+                    {(store.user.id == id ||
+                        isFriend ||
+                        user.public_bookmarks) && (
                         <TabPanel>
                             <BookmarksComponent />
                         </TabPanel>
                     )}
-                    {(store.user.id == id || user.public_reviews) && (
+                    {(store.user.id == id ||
+                        isFriend ||
+                        user.public_reviews) && (
                         <TabPanel>
                             <ReviewsComponent />
                         </TabPanel>

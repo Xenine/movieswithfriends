@@ -161,7 +161,7 @@ class MovieViewSet(viewsets.ReadOnlyModelViewSet):
     search_fields = ['name']
 
     def get_serializer_class(self):
-        if self.action in ['retrieve'] and self.request.user:
+        if self.action in ['retrieve'] and self.request.user.is_authenticated:
             return MovieReviewIncludedReadSerializer
         else:
             return MovieReadSerializer
@@ -169,7 +169,6 @@ class MovieViewSet(viewsets.ReadOnlyModelViewSet):
     @action(detail=False, methods=['get'])
     def top10(self, request):
         id_list = cache.get('top10')
-        print(id_list)
         qs = Movie.objects.filter(kp_id__in=id_list)
         serializer = self.get_serializer(qs, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

@@ -1,10 +1,17 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
+import { ACCOUNT_ROUTE } from '../../utils/consts'
 import classes from './FriendCard.module.scss'
 
 const FriendCard = ({ friend, clickHandle, isRequest = false }) => {
+    const navigate = useNavigate()
+
+    const onClick = () => {
+        navigate('/' + ACCOUNT_ROUTE + '/' + friend.id + '/')
+    }
     return (
         <div className={classes.container}>
-            <div className={classes.left}>
+            <div className={classes.left} onClick={onClick}>
                 <img
                     className={classes.avatar}
                     width={54}
