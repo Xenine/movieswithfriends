@@ -134,6 +134,7 @@ CACHES = {
     }
 }
 
+CORS_ALLOWED_ORIGINS = ["https://filmfriends.online", "https://www.filmfriends.online"]
 
 if DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True  # If this is used then `CORS_ALLOWED_ORIGINS` will not have any effect
