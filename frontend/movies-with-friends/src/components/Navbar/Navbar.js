@@ -97,6 +97,9 @@ const Navbar = observer(() => {
                                 <Link to={HOME_ROUTE} onClick={showNavBar}>
                                     Лента
                                 </Link>
+                                <Link to={SEARCH_ROUTE} onClick={showNavBar}>
+                                    Найти фильм
+                                </Link>
                                 <Link to={ABOUT_ROUTE} onClick={showNavBar}>
                                     О сайте
                                 </Link>

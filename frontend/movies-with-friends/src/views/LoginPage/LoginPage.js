@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import { Context } from '../..'
 import { HOME_ROUTE } from '../../utils/consts'
-import classes from './LoginPage.module.css'
+import classes from './LoginPage.module.scss'
 
 const LoginPage = observer(() => {
     const { store } = useContext(Context)
@@ -26,18 +26,21 @@ const LoginPage = observer(() => {
         script.setAttribute('data-userpic', true)
         script.setAttribute('data-onauth', 'onTelegramAuth(user)')
         script.async = true
-        //создается кнопка для авторизации через телеграм
-        // const script = btnConstructor(setJoined);
         document.getElementById('telegram').appendChild(script)
     })
 
     return (
-        <div>
-            {/* {
-        user && <Redirect to={location.state?.from || '/'} />
-      } */}
-            <b className={classes.title}> Вход в Movies with Friends </b>
-            <div className={classes.loginBlock}>
+        <div className="d-flex flex-column text-center">
+            <p className={classes.title}>
+                Войдите с помощью Telegram{' '}
+                <img className={classes.tg} src="/img/telegram.png" alt="tg" />
+            </p>
+            <p>
+                Это легко и быстро. <br /> Telegram предоставит сайту информацию
+                о вашем имени, юзернейму, а также фотографию профиля. <br />
+                После этого авторизация будет происходить автоматически.
+            </p>
+            <div>
                 <div id="telegram" />
             </div>
         </div>
