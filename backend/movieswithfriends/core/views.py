@@ -97,7 +97,7 @@ class MFUserViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.L
         
         elif self.action in ["bookmarks"]:
             friends_and_himself_qs = MFUser.objects.none()
-            if self.request.user:
+            if self.request.user.is_authenticated:
                 friends_and_himself_qs = Friend.objects.friends(self.request.user) | MFUser.objects.get(pk=self.request.user)
             qs = MFUser.objects.filter(public_bookmarks=True) | friends_and_himself_qs 
 
@@ -105,7 +105,7 @@ class MFUserViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.L
         
         elif self.action in ["reviews"]:
             friends_and_himself_qs = MFUser.objects.none()
-            if self.request.user:
+            if self.request.user.is_authenticated:
                 friends_and_himself_qs = Friend.objects.friends(self.request.user) | MFUser.objects.get(pk=self.request.user)
             qs = MFUser.objects.filter(public_reviews=True) | friends_and_himself_qs
 
@@ -213,18 +213,26 @@ class MovieViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class ReviewViewSet(viewsets.ModelViewSet):
-    permission_classes = [permissions.IsAuthenticated]
-    queryset = Review.objects.all().order_by('-created_at')
+    permission_classes = [permissions.AllowAny]
 
     def get_queryset(self):
-        if self.action in ["list", "retrieve"]:
-            friends_qs = Friend.objects.friends(self.request.user)
-            return Review.objects.filter(author__in=friends_qs).order_by('-created_at')
+        if self.request.user.is_authenticated:
+            if self.action in ["list", "retrieve"]: 
+                friends_qs = Friend.objects.friends(self.request.user)
+                qs = Review.objects.filter(author__in=friends_qs)
+                if self.request.user.only_friends_reviews:
+                    return qs.order_by('-created_at')
+                else: 
+                    return qs.union(Review.objects.filter(author__public_reviews=True)).order_by('-created_at')
+
+            if self.action in ["update", "partial_update", "destroy"]:
+                return Review.objects.filter(author=self.request.user)
         
-        if self.action in ["update", "partial_update", "destroy"]:
-            return Review.objects.filter(author=self.request.user)
-        
-        return Review.objects.all().order_by('-created_at')
+        else:
+            if self.action in ["list", "retrieve"]: 
+                return Review.objects.filter(author__public_reviews=True).order_by('-created_at')
+            else:
+                return Review.objects.none()
 
     def get_serializer_class(self):
         if self.action in ["list",  "retrieve"]:
