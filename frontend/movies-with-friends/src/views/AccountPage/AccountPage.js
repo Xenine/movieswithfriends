@@ -75,9 +75,10 @@ const AccountPage = observer(() => {
                         @{user?.telegram_username}
                     </div>
                 </div>
-                <div className={classes.friendButton}>
+                <div className={classes.friend_button_wrapper}>
                     {store.isAuth ? (
-                        isFriendButton ? (
+                        store.user.id == id &&
+                        (isFriendButton ? (
                             <button
                                 className={classes.delete_button}
                                 onClick={onClickRemove}
@@ -91,7 +92,7 @@ const AccountPage = observer(() => {
                             >
                                 Отправить запрос дружбы
                             </button>
-                        )
+                        ))
                     ) : (
                         <NeedRegistrationComponent text="Чтобы увидеть больше информации о пользователе войдите" />
                     )}
