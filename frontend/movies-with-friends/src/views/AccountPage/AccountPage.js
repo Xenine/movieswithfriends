@@ -77,7 +77,7 @@ const AccountPage = observer(() => {
                 </div>
                 <div className={classes.friend_button_wrapper}>
                     {store.isAuth ? (
-                        store.user.id == id &&
+                        store.user.id != id &&
                         (isFriendButton ? (
                             <button
                                 className={classes.delete_button}
